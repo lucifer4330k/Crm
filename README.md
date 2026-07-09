@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GrowEasy CRM CSV Uploader
+
+An AI-powered CSV-to-CRM converter built for [GrowEasy.ai](https://groweasy.ai). Upload any CSV with lead data and let Google Gemini intelligently extract and map it to the GrowEasy CRM schema.
+
+## Features
+
+- 📤 **Drag & Drop CSV Upload** – Supports any CSV format, auto-detects headers
+- 🤖 **AI Field Extraction** – Google Gemini maps arbitrary columns to the CRM schema
+- 📊 **Live Preview** – See your data before processing
+- ⚡ **Real-time Progress** – Batch-by-batch progress with live logs
+- 🔁 **Retry Logic** – Automatically retries failed AI batches (3 attempts)
+- ✅ **Smart Skipping** – Records missing both email and mobile are auto-skipped
+- 📥 **Download Results** – Export successfully mapped records as CSV
+- 🌙 **Dark Mode UI** – Premium glassmorphism design
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Vanilla CSS |
+| AI | Google Gemini 1.5 Flash |
+| CSV Parsing | PapaParse |
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone & Install
+
+```bash
+git clone <repo-url>
+cd groweasy2
+npm install
+```
+
+### 2. Set Up Gemini API Key
+
+Get a **free** API key from [Google AI Studio](https://aistudio.google.com/app/apikey) (no credit card required).
+
+Create a `.env.local` file:
+
+```env
+GEMINI_API_KEY=your_api_key_here
+```
+
+### 3. Run Locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## CRM Schema
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The AI maps input data to these fields:
 
-## Learn More
+| Field | Type | Notes |
+|-------|------|-------|
+| `created_at` | string | ISO date format |
+| `name` | string | Full name |
+| `email` | string | Email address |
+| `country_code` | string | e.g., `+91` |
+| `mobile_without_country_code` | string | Digits only |
+| `company` | string | Company/organization |
+| `city` | string | City |
+| `state` | string | State/province |
+| `country` | string | Country |
+| `lead_owner` | string | Sales rep name |
+| `crm_status` | enum | `GOOD_LEAD_FOLLOW_UP`, `DID_NOT_CONNECT`, `BAD_LEAD`, `SALE_DONE` |
+| `crm_note` | string | Notes/remarks |
+| `data_source` | enum | `leads_on_demand`, `meridian_tower`, `eden_park`, `varah_swamy`, `sarjapur_plots` |
+| `possession_time` | string | Expected possession date |
+| `description` | string | Additional info |
 
-To learn more about Next.js, take a look at the following resources:
+## Skip Rules
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Records are automatically skipped if they have **no email AND no mobile number**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+groweasy2/
+├── app/
+│   ├── page.tsx                  # Main 4-step wizard
+│   ├── layout.tsx                # Root layout + metadata
+│   ├── globals.css               # Design system
+│   └── api/process-csv/route.ts  # AI processing API
+├── components/
+│   ├── FileUpload.tsx            # Drag & drop uploader
+│   ├── CSVPreview.tsx            # Data preview table
+│   └── ResultsTable.tsx          # Results with tabs
+├── lib/
+│   ├── types.ts                  # TypeScript interfaces
+│   └── gemini.ts                 # Gemini AI client
+└── .env.local                    # API keys (not committed)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to Vercel in one click:
+
+1. Push to GitHub
+2. Connect repo to [Vercel](https://vercel.com)
+3. Add `GEMINI_API_KEY` in Vercel Environment Variables
+4. Deploy!
+
+## License
+
+Built as an assignment for GrowEasy.ai.
