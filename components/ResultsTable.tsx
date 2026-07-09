@@ -31,11 +31,11 @@ function downloadCSV(records: CRMRecord[], filename: string) {
   const rows = records.map((r) =>
     headers.map((h) => {
       let val = r[h] || '';
-      // Sanitize formula injection
+
       if (/^[=+\-@]/.test(val)) {
         val = "'" + val;
       }
-      // Escape line breaks as per assignment instructions to keep it on a single line
+
       val = val.replace(/\r?\n/g, '\\n');
       return `"${val.replace(/"/g, '""')}"`;
     }).join(',')

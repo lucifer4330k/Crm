@@ -56,7 +56,7 @@ const responseSchema: Schema = {
           state: { type: SchemaType.STRING },
           country: { type: SchemaType.STRING },
           lead_owner: { type: SchemaType.STRING },
-          crm_status: { type: SchemaType.STRING }, // Enums enforced via Zod post-processing
+          crm_status: { type: SchemaType.STRING },
           crm_note: { type: SchemaType.STRING },
           data_source: { type: SchemaType.STRING },
           possession_time: { type: SchemaType.STRING },
@@ -72,15 +72,15 @@ async function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Helper to extract multiple emails/phones and append to notes
+
 function applyCodeLevelFallback(rawRow: Record<string, string>, mappedRecord: CRMRecord) {
   const rowString = JSON.stringify(rawRow).toLowerCase();
   
-  // Extract all emails
+
   const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
   const emails = Array.from(new Set(rowString.match(emailRegex) || []));
   
-  // Basic phone regex (looking for 10+ digit sequences)
+
   const phoneRegex = /\b\d{10,14}\b/g;
   const phones = Array.from(new Set(rowString.match(phoneRegex) || []));
 
@@ -132,14 +132,13 @@ export async function processBatchWithGemini(
       const finalRecords: CRMRecord[] = [];
       const finalSkipped: SkippedRecord[] = [];
 
-      // Validate each record with Zod and apply code-level skip rules
+
       for (let i = 0; i < Math.min(batch.length, llmRecords.length); i++) {
         const rawRow = batch[i];
         let mapped = llmRecords[i];
 
         try {
-          // Parse with Zod (will strip invalid enums to default '' if they fail strictly, but we need to handle it)
-          // Since our Zod enum doesn't auto-fallback on failure, we parse safely:
+
           const zodResult = CRMRecordSchema.safeParse(mapped);
           
           if (!zodResult.success) {
@@ -149,18 +148,18 @@ export async function processBatchWithGemini(
 
           const validRecord = zodResult.data;
 
-          // Date Parse Check (ensure created_at is valid if provided)
+
           if (validRecord.created_at) {
             const d = new Date(validRecord.created_at);
             if (isNaN(d.getTime())) {
-              validRecord.created_at = ''; // Strip bad date rather than fail
+              validRecord.created_at = '';
             }
           }
 
-          // Code-level fallback for multiple emails/phones
+
           applyCodeLevelFallback(rawRow, validRecord);
 
-          // Code-Level Skip Rule (Missing Contact Info)
+
           if (!validRecord.email && !validRecord.mobile_without_country_code) {
             finalSkipped.push({ originalData: rawRow, reason: "Missing contact info (No Email/Mobile)" });
             continue;
@@ -172,7 +171,7 @@ export async function processBatchWithGemini(
         }
       }
 
-      // If Gemini returned fewer records than the batch, mark remaining as skipped
+
       if (llmRecords.length < batch.length) {
         for (let i = llmRecords.length; i < batch.length; i++) {
           finalSkipped.push({ originalData: batch[i], reason: "AI silently dropped this record" });

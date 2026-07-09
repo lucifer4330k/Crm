@@ -125,7 +125,7 @@ export default function HomePage() {
     setProgress({ batchNumber: totalBatches, totalBatches, processed: csvRows.length, total: csvRows.length });
     addLog(`🎉 Done! ${allSuccess.length} imported, ${allSkipped.length} skipped.`, 'success');
 
-    // Brief delay so user sees 100%
+
     await new Promise(r => setTimeout(r, 800));
 
     setResult({ success: allSuccess, skipped: allSkipped, totalProcessed: csvRows.length });

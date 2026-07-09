@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const allSuccess: CRMRecord[] = [];
     const allSkipped: SkippedRecord[] = [];
 
-    // Process in batches
+
     const batches: Record<string, string>[][] = [];
     for (let i = 0; i < records.length; i += BATCH_SIZE) {
       batches.push(records.slice(i, i + BATCH_SIZE));
