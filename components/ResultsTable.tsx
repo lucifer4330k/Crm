@@ -35,6 +35,8 @@ function downloadCSV(records: CRMRecord[], filename: string) {
       if (/^[=+\-@]/.test(val)) {
         val = "'" + val;
       }
+      // Escape line breaks as per assignment instructions to keep it on a single line
+      val = val.replace(/\r?\n/g, '\\n');
       return `"${val.replace(/"/g, '""')}"`;
     }).join(',')
   );
