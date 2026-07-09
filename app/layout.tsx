@@ -4,9 +4,9 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Devil CRM Uploader — AI-Powered CSV Converter',
+  title: 'GrowEasy CRM Uploader — AI-Powered CSV Converter',
   description:
-    'Upload any CSV file and let AI intelligently extract and map your leads into the Devil CRM schema.',
+    'Upload any CSV file and let AI intelligently extract and map your leads into the GrowEasy CRM format instantly.',
   keywords: ['CRM', 'CSV upload', 'lead management', 'AI'],
 };
 
@@ -22,10 +22,10 @@ export default function RootLayout({
           <div className="app-wrapper">
             <header className="header">
               <div className="header-inner">
-                <a href="/" className="logo">
-                  <div className="logo-icon">🔥</div>
-                  <span className="logo-text">Devil CRM</span>
-                </a>
+                <div className="navbar-logo">
+                  <span className="logo-icon">🌱</span>
+                  <span className="logo-text">GrowEasy</span>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <span className="header-badge">CRM Uploader</span>
                   <ThemeToggle />
@@ -34,7 +34,7 @@ export default function RootLayout({
             </header>
           <main style={{ flex: 1 }}>{children}</main>
             <footer className="footer" style={{ padding: '24px', textAlign: 'center', color: 'var(--text-muted)' }}>
-              made with love by devil ❤️
+              made with love by GrowEasy ❤️
             </footer>
           </div>
         </ThemeProvider>

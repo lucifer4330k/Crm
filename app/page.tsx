@@ -43,6 +43,7 @@ export default function HomePage() {
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
+      worker: true,
       complete: (parsed) => {
         const headers = parsed.meta.fields || [];
         const rows = parsed.data as Record<string, string>[];
@@ -155,7 +156,7 @@ export default function HomePage() {
         </div>
         <h1 className="hero-title">
           Transform Any CSV into<br />
-          <span>Devil CRM Data</span>
+          <span>GrowEasy CRM Data</span>
         </h1>
         <p className="hero-subtitle">
           Upload your lead spreadsheet and let AI intelligently extract,
@@ -205,7 +206,7 @@ export default function HomePage() {
               <span>💡</span>
               <div>
                 <strong>How it works:</strong> Upload any CSV with lead data. Our AI will intelligently
-                map columns like name, email, phone, city, status, etc. into the Devil CRM format —
+                map columns like name, email, phone, city, status, etc. into the GrowEasy CRM format —
                 no manual column mapping needed.
               </div>
             </div>
@@ -263,7 +264,7 @@ export default function HomePage() {
               <div>
                 <p className="processing-title">AI is Processing Your Data</p>
                 <p className="processing-subtitle">
-                  AI is analyzing each record and mapping fields to the Devil CRM schema.
+                  AI is analyzing each record and mapping fields to the GrowEasy CRM schema.
                   Please don&apos;t close this window.
                 </p>
               </div>
@@ -308,7 +309,7 @@ export default function HomePage() {
             <div className="card-header">
               <h2 className="card-title">🎉 Import Complete!</h2>
               <p className="card-subtitle">
-                Your data has been successfully extracted and mapped to the Devil CRM schema
+                Your data has been successfully extracted and mapped to the GrowEasy CRM schema
               </p>
             </div>
             <ResultsTable result={result} onReset={handleReset} />

@@ -29,7 +29,14 @@ function downloadCSV(records: CRMRecord[], filename: string) {
   if (records.length === 0) return;
   const headers = Object.keys(records[0]) as (keyof CRMRecord)[];
   const rows = records.map((r) =>
-    headers.map((h) => `"${(r[h] || '').replace(/"/g, '""')}"`).join(',')
+    headers.map((h) => {
+      let val = r[h] || '';
+      // Sanitize formula injection
+      if (/^[=+\-@]/.test(val)) {
+        val = "'" + val;
+      }
+      return `"${val.replace(/"/g, '""')}"`;
+    }).join(',')
   );
   const csv = [headers.join(','), ...rows].join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });

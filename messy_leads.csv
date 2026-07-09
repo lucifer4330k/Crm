@@ -1,0 +1,5 @@
+name,contact_info,project,date,notes,status
+"Messy Bob","bob1@example.com, bob2@test.com / Ph: 9876543210, 1234567890","I saw meridian tower on FB","2026-99-99","=1+1 is a formula injection attempt","hot lead"
+"Missing Info","no contact details provided","Eden Park phase 2","02/29/2025","should be skipped",""
+"John Smith","john@gmail.com","varah swamy layout","Yesterday","Just one email, standard phone 555-1234","not reachable"
+"Valid Sale","alice@corp.com +18005559999","Leads on Demand","2023-05-12T10:00:00Z","- starts with dash","won"
