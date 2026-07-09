@@ -132,8 +132,8 @@ function SkippedTable({ records }: { records: SkippedRecord[] }) {
                 <span className="badge badge-danger">{rec.reason}</span>
               </td>
               {originalHeaders.slice(0, 6).map((h) => (
-                <td key={h} title={rec.originalData[h] || ''}>
-                  {rec.originalData[h] || <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>—</span>}
+                <td key={h} title={String(rec.originalData[h] || '')}>
+                  {rec.originalData[h] ? String(rec.originalData[h]) : <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>—</span>}
                 </td>
               ))}
             </tr>

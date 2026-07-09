@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { GoogleGenerativeAI, SchemaType, Schema } from '@google/generative-ai';
 import { CRMRecord, SkippedRecord, CRMRecordSchema } from './types';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
@@ -39,7 +39,7 @@ export interface GeminiProcessResult {
   skipped: SkippedRecord[];
 }
 
-const responseSchema = {
+const responseSchema: Schema = {
   type: SchemaType.OBJECT,
   properties: {
     records: {

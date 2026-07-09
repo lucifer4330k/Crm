@@ -30,7 +30,7 @@ export const CRMRecordSchema = z.object({
 export type CRMRecord = z.infer<typeof CRMRecordSchema>;
 
 export const SkippedRecordSchema = z.object({
-  originalData: z.record(z.string()),
+  originalData: z.record(z.string(), z.string()),
   reason: z.string(),
 });
 
